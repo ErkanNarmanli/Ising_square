@@ -9,6 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 from cmath import *
 from colorsys import *
 import sys
+import os
 import numpy as np
 
 #Constantes 
@@ -48,3 +49,12 @@ def dessine_carre(mat):
     # On a fini
     return(image)
 
+def gif(images):
+    # nombre d'images
+    nb  = len(images)
+    
+    for i in range(nb):
+        images[i].save('tmp/im_' + str(i) + '.png') 
+
+    os.system('convert tmp/*.png tmp/animation.gif')
+    os.system('rm tmp/*.png')

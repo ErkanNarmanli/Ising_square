@@ -5,7 +5,7 @@ from random import *
 import numpy as np
 
 
-beta = 1
+beta = 0.001
 n    = 20 # taille du carré
 
 def voisins(i, j):
@@ -50,10 +50,8 @@ def energie_sommet(config, i, j):
     Calcule le S(sigma,v)
     """
     h = 0
-    for i in range(n):
-        for j in range(n):
-            for (k, l) in voisins(i, j):
-                h += config[i, j]*config[k, l]
+    for (k, l) in voisins(i, j):
+        h += config[i, j]*config[k, l]
     return h
 
 def proba_sommet(config, i, j):
@@ -70,7 +68,7 @@ def step(config):
     """
     i   = randint(0,n-1)
     j   = randint(0,n-1)
-    u   = np.randon.rand()
+    u   = np.random.rand()
     p   = proba_sommet(config, i, j)
     res = np.copy(config)
     if(u<p):
@@ -79,4 +77,15 @@ def step(config):
         res[i, j] = -1
     return res
     
+def make_mats(init, nb):
+    """
+    génère une liste de config à partir d'une configuration initiale
+    génère nb config (en comptant la config initiale
+    """
+    mats    = list(np.ones((nb, n, n)))
+    mats[0] = np.copy(init)
+    for i in range(nb-1):
+        mats[i+1] = step(mats[i])
+    return mats
 
+    

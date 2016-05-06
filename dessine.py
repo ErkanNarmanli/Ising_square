@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*-coding:utf-8 -*
 
 """
@@ -35,6 +35,9 @@ def dessine_face(i,j,n,col,draw):
     draw.rectangle(get_coord(i,j,n), fill=col)
 
 def dessine_carre(mat):
+    """
+    dessine une image à partir de la matrice de +1 et -1
+    """
     # On récupère la taille de mat
     n = np.size(mat[0])
     # Déclaration de l'image
@@ -50,9 +53,19 @@ def dessine_carre(mat):
     return(image)
 
 def make_images(mats):
+    """
+    dessine une liste d'images à partir d'une liste
+    de matrices de +1 et -1
+    """
     return list(map(dessine_carre, mats))
 
 def make_film(images):
+    """
+    génère un film à partir d'une liste d'images
+    stock le film à l'emplacement 'tmp/movie.mp4'
+    plus tard il pourra être utile de mettre 
+    l'emplacement du fichier en argument
+    """
     # nombre d'images
     nb       = len(images)
     nb_digit = len(str(nb))
@@ -64,5 +77,8 @@ def make_film(images):
     os.system('rm tmp/*.png')
 
 def read_film():
+    """
+    lit l'emplacement du film
+    """
     os.system('cvlc tmp/movie.mp4')
 

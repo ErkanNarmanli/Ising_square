@@ -49,12 +49,20 @@ def dessine_carre(mat):
     # On a fini
     return(image)
 
-def gif(images):
+def make_images(mats):
+    return list(map(dessine_carre, mats))
+
+def make_film(images):
     # nombre d'images
-    nb  = len(images)
+    nb       = len(images)
+    nb_digit = len(str(nb))
     
     for i in range(nb):
-        images[i].save('tmp/im_' + str(i) + '.png') 
+        images[i].save('tmp/im_' + str(i+1).zfill(nb_digit) + '.png') 
 
-    os.system('convert tmp/*.png tmp/animation.gif')
+    os.system('cd tmp ; ffmpeg -r 10 -f image2 -i im_%0{}d.png -vcodec mpeg4 -y movie.mp4'.format(nb_digit))
     os.system('rm tmp/*.png')
+
+def read_film():
+    os.system('cvlc tmp/movie.mp4')
+

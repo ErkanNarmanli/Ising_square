@@ -5,20 +5,16 @@ from random import *
 import time
 
 n = 20
+nb = 40
+mats = list(range(nb))
 
-# On initialise la matrice
-mat = np.zeros((n,n))
-for i in range(n):
-    for j in range(n):
-        mat[i,j] = randint(0,1)
+for k in range(nb):
+    mats[k] = np.zeros((n,n))
+    for i in range(n):
+        for j in range(n):
+            mats[k][i,j] = randint(0,1)
 
-mat2 = np.zeros((n,n))
-for i in range(n):
-    for j in range(n):
-        mat2[i,j] = randint(0,1)
+images = make_images(mat)
 
-# On dessine
-im  = dessine_carre(mat)
-im2 = dessine_carre(mat2)
-
-gif([im, im2])
+make_film(images)
+read_film()

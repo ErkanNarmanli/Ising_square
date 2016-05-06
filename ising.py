@@ -2,6 +2,8 @@
 # -*-coding:utf-8 -*
 
 from random import *
+import numpy as np
+
 
 beta = 1
 n    = 20 # taille du carré
@@ -41,15 +43,40 @@ def energie(config):
         for j in range(n):
             for (k,l) in voisins_plus(i,j):
                 h += config[i,j]*config[k,l]
-    return h
+    return (-h)
 
-def energie_sommet(config,i,j):
+def energie_sommet(config, i, j):
     """
     Calcule le S(sigma,v)
     """
     h = 0
     for i in range(n):
         for j in range(n):
-            for (k,l) in voisins(i,j):
-                h += config[i,j]*config[k,l]
+            for (k, l) in voisins(i, j):
+                h += config[i, j]*config[k, l]
     return h
+
+def proba_sommet(config, i, j):
+    """
+    Donne la proba p(sigma, v) que v soit changé en +1
+    """
+    s   = energie_sommet(config, i, j)
+    res = np.exp(beta*s)/(np.exp(beta*s)+np.exp(-beta*s))
+    return res
+
+def step(config):
+    """
+    rend la configuration avancée d'un pas selon la dynamique de Glauber
+    """
+    i   = randint(0,n-1)
+    j   = randint(0,n-1)
+    u   = np.randon.rand()
+    p   = proba_sommet(config, i, j)
+    res = np.copy(config)
+    if(u<p):
+        res[i, j] = +1
+    else:
+        res[i, j] = -1
+    return res
+    
+
